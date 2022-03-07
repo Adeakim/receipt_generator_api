@@ -6,8 +6,7 @@ from django.contrib.auth.models import (
 )
 import uuid
 
-from django.forms import CharField
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 class UserManager(BaseUserManager):
     def create_user(self, email, name, password=None):
@@ -40,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, max_length=255)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    phone_number = CharField(max_length=50)
+    mobile_number = PhoneNumberField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
