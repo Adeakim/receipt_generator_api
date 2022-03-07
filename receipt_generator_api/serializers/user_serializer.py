@@ -25,14 +25,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         if confirm_password != password:
             raise ValidationError("Passwords mismatch")
         return data
-    
-    # def validate_mobile_number(self, mobile_number):
-    #     regex = re.compile(r"^\+?[0-9]+$")
-    #     if regex.match(mobile_number):
-    #         return mobile_number
-    #     # return "not matched"
-    #     raise serializers.ValidationError("Enter a valid phone number starting with the state code")
-
 
     def save(self):
         user = models.User(
@@ -41,3 +33,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(self.validated_data["password"])
         user.save()
         return user
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=68, min_length=8, write_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ("email", "password")
