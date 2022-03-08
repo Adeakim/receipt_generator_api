@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'phonenumber_field',
+ 
+    'rest_framework',
+    'rest_framework.authtoken',
+    "rest_framework_simplejwt",
 
-    "receipt_generator_api"
-    'rest_framework'
+     "receipt_generator_api",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +58,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'project.urls'
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    # "EXCEPTION_HANDLER": "lib.custom_exception_handler.custom_exception_handler",
+}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -124,3 +134,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'receipt_generator_api.User'
