@@ -3,9 +3,6 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from .data import DATA
-import os
-# from receipt_generator_api.lib.cloudinary_interface import CloudinaryInterface
-import cloudinary.uploader
 
 
  
@@ -46,17 +43,12 @@ class GenerateReceipt:
         table = Table( self.convert() , style = style )
         return table
     
-    def generate_pdf(self,filename):
+    def generate_pdf(self):
         
-        # save_name = os.path.join(os.path.expanduser("~"), "Desktop/", "receipt.pdf")
-
-        pdf = SimpleDocTemplate( f"{filename}-receipt.pdf", pagesize = A4 )
+        pdf = SimpleDocTemplate( "receipt.pdf", pagesize = A4 )
        
         
-        x=pdf.build([ self.title() , self.construct_table() ])
-        # cloudinary.uploader.upload(x) 
-        # pdf_url = CloudinaryInterface.upload_image(pdf, folder_name="receipt")
-        # cloudinary.uploader.upload("sample.pdf")
-        return "receipt.pdf"
+        pdf.build([ self.title() , self.construct_table() ])
+        return f"receipt.pdf"
 
         

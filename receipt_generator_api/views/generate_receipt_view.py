@@ -1,6 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status,permissions
-# from rest_framework.response import Response
 from receipt_generator_api.models import Receipt, User
 from receipt_generator_api.serializers.generate_receipt_serializer import (
     GenerateReceiptSerializer,
@@ -25,10 +24,10 @@ class GenerateReceiptViewset(ModelViewSet):
             serializer.save(email=user.email,name=user.name,address=user.address, mobile_number=user.mobile_number)
             new_data=serializer.data
             x = GenerateReceipt([(new_data)])
-            pdf = x.generate_pdf(user.name)
+            pdf = x.generate_pdf()
             pdf_url = cloudinary.uploader.upload(pdf)
             
-            return Response(data={"data":serializer.data,"pdf_url":pdf_url['url']},status = status.HTTP_201_CREATED)
+            return Response(data={"pdf_url":pdf_url['url']},status = status.HTTP_201_CREATED)
         return Response(errors={'error':"please enter a valid number"}, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):
