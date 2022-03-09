@@ -7,12 +7,21 @@ from django.contrib.auth import get_user_model
 # from models import User
 from receipt_generator_api import models
 
+
 class RegisterSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(max_length=200, write_only=True)
 
     class Meta:
         model = models.User
-        fields = ("id", "name", "email", "mobile_number", "password", "confirm_password")
+        fields = (
+            "id",
+            "name",
+            "email",
+            "mobile_number",
+            "address",
+            "password",
+            "confirm_password",
+        )
         extra_kwargs = {
             "password": {"write_only": True},
             "confirm_password": {"write_only": True},
@@ -28,7 +37,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def save(self):
         user = models.User(
-            name=self.validated_data["name"], email=self.validated_data["email"], mobile_number=self.validated_data["mobile_number"]
+            name=self.validated_data["name"],
+            email=self.validated_data["email"],
+            mobile_number=self.validated_data["mobile_number"],
+            address=self.validated_data["address"],
         )
         user.set_password(self.validated_data["password"])
         user.save()
