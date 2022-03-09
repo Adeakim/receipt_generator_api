@@ -8,7 +8,7 @@ from receipt_generator_api.serializers.generate_receipt_serializer import (
 from receipt_generator_api.lib.response import Response
 from receipt_generator_api.data import DATA
 from receipt_generator_api.utils import GenerateReceipt
-import json
+import cloudinary.uploader
 
 
 class GenerateReceiptViewset(ModelViewSet):
@@ -25,10 +25,10 @@ class GenerateReceiptViewset(ModelViewSet):
             serializer.save(email=user.email,name=user.name,address=user.address, mobile_number=user.mobile_number)
             new_data=serializer.data
             x = GenerateReceipt([(new_data)])
-            print(x.generate_pdf())
+            pdf = x.generate_pdf(user.name)
+            pdf_url = cloudinary.uploader.upload(pdf)
             
-            
-            return Response(data=serializer.data,status = status.HTTP_201_CREATED)
+            return Response(data={"data":serializer.data,"pdf_url":pdf_url['url']},status = status.HTTP_201_CREATED)
         return Response(errors={'error':"please enter a valid number"}, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):

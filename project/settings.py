@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+import cloudinary
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,3 +139,16 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'receipt_generator_api.User'
+
+
+cloudinary.config(
+    cloud_name=config("CLOUD_NAME", default=""),
+    api_key=config("API_KEY", default=""),
+    api_secret=config("API_SECRET", default=""),
+)
+
+# cloudinary.config(
+#     cloud_name=config("dje0qtxrs"),
+#     api_key=config("347166829819152"),
+#     api_secret=config("8js9vybLTSvEMElZmPxT2UEwbA0"),
+# )
