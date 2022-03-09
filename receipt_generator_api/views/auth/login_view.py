@@ -33,6 +33,6 @@ class LoginViewset(ViewSet):
         if not user:
              return Response(errors={"error":"Ensure both email and password are correct"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # token = RefreshToken.for_user(user).access_token
-        token, created = Token.objects.get_or_create(user=user)
-        return Response(data={"token":str(token.key), "id":user.id}, status=status.HTTP_200_OK)
+        token = RefreshToken.for_user(user).access_token
+        # token, created = Token.objects.get_or_create(user=user)
+        return Response(data={"token":str(token)}, status=status.HTTP_200_OK)

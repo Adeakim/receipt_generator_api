@@ -14,7 +14,7 @@ import json
 class GenerateReceiptViewset(ModelViewSet):
     queryset = Receipt
     serializer_class = GenerateReceiptSerializer
-    permission_class = (permissions.IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request):
         data = request.data 
@@ -22,7 +22,7 @@ class GenerateReceiptViewset(ModelViewSet):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             user = User.objects.get(email=user_id)
-            serializer.save(email=user.email,name=user.name,address=user.address)
+            serializer.save(email=user.email,name=user.name,address=user.address, mobile_number=user.mobile_number)
             new_data=serializer.data
             x = GenerateReceipt([(new_data)])
             print(x.generate_pdf())

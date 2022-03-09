@@ -48,4 +48,4 @@ class GenerateReceipt:
         pdf = SimpleDocTemplate( save_name , pagesize = A4 )
         
         pdf.build([ self.title() , self.construct_table() ])
-        return "pdf printed"
+        return "pdf generated"

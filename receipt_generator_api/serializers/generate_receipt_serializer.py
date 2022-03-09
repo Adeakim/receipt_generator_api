@@ -3,15 +3,14 @@ from receipt_generator_api import models
 
 
 class GenerateReceiptSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Receipt
-        fields = ['user', 'email', 'name','address', 'total_amount_payable']
-        read_only_fields = [ 
+        fields = ["user", "name","mobile_number", "address", "total_amount_payable"]
+        read_only_fields = [
             "name",
             "address",
-            'email',
+            "mobile_number"
         ]
         extra_kwargs = {
-            'user': {'write_only': True},
+            "user": {"write_only": True},
         }
