@@ -45,9 +45,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     "rest_framework_simplejwt",
+    "drf_yasg",
 
-     "receipt_generator_api",
+    "receipt_generator_api",
 ]
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS':{
+        "Auth Token eg[Bearer (JWT)]" : {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -146,9 +156,3 @@ cloudinary.config(
     api_key=config("API_KEY", default=""),
     api_secret=config("API_SECRET", default=""),
 )
-
-# cloudinary.config(
-#     cloud_name=config("dje0qtxrs"),
-#     api_key=config("347166829819152"),
-#     api_secret=config("8js9vybLTSvEMElZmPxT2UEwbA0"),
-# )

@@ -1,16 +1,18 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet,ViewSet
 from rest_framework import status,permissions
 from receipt_generator_api.models import Receipt, User
 from receipt_generator_api.serializers.generate_receipt_serializer import (
     GenerateReceiptSerializer,
 )
+from rest_framework import mixins,viewsets
 from receipt_generator_api.lib.response import Response
 from receipt_generator_api.data import DATA
 from receipt_generator_api.utils import GenerateReceipt
 import cloudinary.uploader
 
 
-class GenerateReceiptViewset(ModelViewSet):
+class GenerateReceiptViewset(mixins.CreateModelMixin,
+                                mixins.ListModelMixin,viewsets.GenericViewSet):
     queryset = Receipt
     serializer_class = GenerateReceiptSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -18,7 +20,8 @@ class GenerateReceiptViewset(ModelViewSet):
     def create(self, request):
         data = request.data 
         user_id = data.get("user")
-        serializer = self.serializer_class(data=data)
+        receipt = Receipt.objects.all()
+        serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             user = User.objects.get(email=user_id)
             serializer.save(email=user.email,name=user.name,address=user.address, mobile_number=user.mobile_number)
