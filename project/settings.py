@@ -59,9 +59,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'project.urls'
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+    # ],
     # "EXCEPTION_HANDLER": "lib.custom_exception_handler.custom_exception_handler",
 }
 TEMPLATES = [

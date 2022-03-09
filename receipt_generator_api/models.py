@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 import uuid
-
+import datetime
 from phonenumber_field.modelfields import PhoneNumberField
 
 class UserManager(BaseUserManager):
@@ -60,4 +60,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 class Receipt(models.Model):
-    pass
+
+    id = models.UUIDField(
+        unique=True, primary_key=True, default=uuid.uuid4, editable=False
+    )
+    user = models.ForeignKey(User,null=True,to_field='email',on_delete=models.CASCADE)
+    email = models.EmailField(null=True, max_length=255)
+    name = models.CharField(max_length=255, null=True)
+    address = models.CharField(max_length=255, null =True)
+    mobile_number = PhoneNumberField(null=True)
+    total_amount_payable=models.DecimalField( max_digits=50, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

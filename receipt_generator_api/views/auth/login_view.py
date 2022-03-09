@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
-from rest_framework import status
+from rest_framework import status,permissions
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -18,6 +18,7 @@ from receipt_generator_api.serializers import user_serializer
 class LoginViewset(ViewSet):
     queryset = User.objects.all()        
     serializer_class = user_serializer.LoginSerializer
+    permission_class = (permissions.AllowAny,)
 
     @action(detail=False, methods=["post"], url_path="login", url_name="login")
     def login(self, request):
@@ -32,5 +33,6 @@ class LoginViewset(ViewSet):
         if not user:
              return Response(errors={"error":"Ensure both email and password are correct"}, status=status.HTTP_400_BAD_REQUEST)
 
-        token = RefreshToken.for_user(user).access_token
-        return Response(data={"token":str(token)}, status=status.HTTP_200_OK)
+        # token = RefreshToken.for_user(user).access_token
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(data={"token":str(token.key), "id":user.id}, status=status.HTTP_200_OK)
