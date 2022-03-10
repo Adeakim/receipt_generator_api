@@ -133,7 +133,7 @@ RESPONSE FORMAT
 <!-- Get all generated receipts -->
 METHOD : GET  
 ROUTE:  api/stories/<uuid:id>
-ON LOCALHOST: http://127.0.0.1:8000/api/stories/cd182687-e0f0-4f5b-9f3c-dde735f0818b/
+ON LOCALHOST: http://127.0.0.1:8000/api/v1/generate-receipt
 
 RESPONSE FORMAT
 {
