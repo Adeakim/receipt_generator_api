@@ -1,6 +1,6 @@
 # receipt_generator_api
 
-This is a Django web application that generate receipt for users. 
+This is a Django web application that generate receipt for users. The api documentation can be assessed through this link https://receipt-generator-api.herokuapp.com/
 
 TECHNOLOGIES
 The following technologies were used in this project:
