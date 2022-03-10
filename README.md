@@ -58,15 +58,16 @@ python manage.py runserver
 -Navigate to ```http://127.0.0.1:8000/```
 
 This will show the API documentation on swagger.
-```
+
 <!-- .................................TESTING THE ENDPOINTS........................................................... -->
 
 <!-- Register a user -->
+```
 METHOD : POST
 ROUTE:  api/v1/auth/register
 ON LOCALHOST: http://127.0.0.1:8000/api/v1/auth/register
 PAYLOAD:
-```
+
 {
   "name": "string",
   "email": "user@example.com",
@@ -75,7 +76,7 @@ PAYLOAD:
   "password": "string",
   "confirm_password": "string"
 }
-```
+
 RESPONSE FORMAT
 ```
 {
@@ -94,6 +95,7 @@ RESPONSE FORMAT
   
  ```
  <!-- Sign in  a user -->
+ ```
 METHOD : POST
 ROUTE:  api/v1/auth/login
 ON LOCALHOST: http://127.0.0.1:8000/api/v1/auth/login
@@ -129,8 +131,9 @@ RESPONSE FORMAT
 }
   "errors": { null
   }
-
+```
 <!-- Get all generated receipts -->
+  ```
 METHOD : GET  
 ROUTE:  api/stories/<uuid:id>
 ON LOCALHOST: http://127.0.0.1:8000/api/v1/generate-receipt
