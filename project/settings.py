@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "rest_framework_simplejwt",
     "drf_yasg",
-    "corsheaders"
+    "corsheaders",
     "receipt_generator_api",
 ]
 SWAGGER_SETTINGS = {
