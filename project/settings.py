@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "rest_framework_simplejwt",
     "drf_yasg",
-
+    "corsheaders",
     "receipt_generator_api",
 ]
 SWAGGER_SETTINGS = {
@@ -73,7 +73,8 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
    
     'django.middleware.security.SecurityMiddleware',
-     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -179,3 +180,5 @@ cloudinary.config(
     api_key=config("API_KEY", default=""),
     api_secret=config("API_SECRET", default=""),
 )
+
+CORS_ALLOW_ALL_ORIGINS: True
