@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "corsheaders",
     'phonenumber_field',
  
     'rest_framework',
@@ -73,6 +74,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
    
     'django.middleware.security.SecurityMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
      "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -179,3 +181,5 @@ cloudinary.config(
     api_key=config("API_KEY", default=""),
     api_secret=config("API_SECRET", default=""),
 )
+
+CORS_ALLOW_ALL_ORIGINS = True
