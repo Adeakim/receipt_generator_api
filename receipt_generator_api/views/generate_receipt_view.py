@@ -26,17 +26,21 @@ class GenerateReceiptViewset(mixins.CreateModelMixin,
 
     def create(self, request):
         data = request.data 
-        user_id = data.get("user")
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
-            user =self.get_object(user_id)
-            serializer.save(email=user.email,name=user.name,address=user.address, mobile_number=user.mobile_number)
+            serializer.save()
             new_data=serializer.data
             x = GenerateReceipt([(new_data)])
             pdf = x.generate_pdf()
-            pdf_url = cloudinary.uploader.upload(pdf)
+            f=[]
+            for i in pdf:
+                pdf_url = cloudinary.uploader.upload(i)
+                f.append(pdf_url)
+            pdf_list = [i["url"] for i in f]
+            if not pdf_url:
+                return Response(errors={"error":"Internal server error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={"pdf_url":pdf_list},status = status.HTTP_201_CREATED)
             
-            return Response(data={"pdf_url":pdf_url['url']},status = status.HTTP_201_CREATED)
         return Response(errors={'error':"please enter a valid number"}, status=status.HTTP_400_BAD_REQUEST)
 
     def list(self, request):

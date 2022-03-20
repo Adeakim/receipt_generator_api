@@ -3,7 +3,6 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from .data import DATA
-# from drf_yasg.utils import swagger_auto_schema
 
 
  
@@ -45,18 +44,10 @@ class GenerateReceipt:
         return table
     
     def generate_pdf(self):
-        
-        pdf = SimpleDocTemplate( "receipt.pdf", pagesize = A4 )
-       
-        
-        pdf.build([ self.title() , self.construct_table() ])
-        return f"receipt.pdf"
-
-# class CustomAutoSchema(SwaggerAutoSchema):
-
-#     def get_tags(self, operation_keys=None):
-#         tags = self.overrides.get('tags', None) or getattr(self.view, 'my_tags', [])
-#         if not tags:
-#             tags = [operation_keys[0]]
-
-#         return tags
+        x = []
+        for  i in range (1,11):
+            pdf = SimpleDocTemplate( f"receipt-{i}.pdf", pagesize = A4 )
+            x.append(pdf)
+            y = [i.build([ self.title() , self.construct_table() ]) for i in x]
+        theList = [f"receipt-{i}.pdf" for i in range(1,11)]
+        return theList
