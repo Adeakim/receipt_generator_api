@@ -182,3 +182,10 @@ cloudinary.config(
 )
 
 CORS_ALLOW_ALL_ORIGINS: True
+
+CORS_ORIGIN_WHITELIST = (
+    
+        'http://localhost:3000',
+        'http://localhost:8000',
+        'https://receipt-generator-api.herokuapp.com'
+    )
