@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ViewSet
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework import status, mixins, viewsets
 
@@ -19,3 +20,21 @@ class AuthenticationViewset(viewsets.GenericViewSet):
             serializer.save()            
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         return Response(errors=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserViewset(viewsets.GenericViewSet):
+    queryset= models.User.objects.all()
+    serializer_class = user_serializer.RegisterSerializer
+    permission_class = (IsAuthenticated,)
+
+    def list(self, request, *arg, **kwargs):
+        """
+        Returns a list of plans for the currently
+        authenticated user that owns the plans.
+        """
+        # plans = Plan.objects.all()
+        users = models.User.objects.all()
+        serializer = self.get_serializer(users, many=True)
+        return Response(
+            data=dict(users=serializer.data, total=len(serializer.data)),
+            status=status.HTTP_200_OK,
+        )
