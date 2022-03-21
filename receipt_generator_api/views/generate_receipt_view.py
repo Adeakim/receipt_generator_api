@@ -35,8 +35,11 @@ class GenerateReceiptViewset(mixins.CreateModelMixin,
             pdf = x.generate_pdf(name)
             f=[]
             for i in pdf:
-                pdf_url = cloudinary.uploader.upload(i, folder="Dakka")
-                f.append(pdf_url)
+                try:
+                    pdf_url = cloudinary.uploader.upload(i, folder="Dakka")
+                    f.append(pdf_url)
+                except:
+                    return Response(errors={"error":"Internal server error,Could not upload to cloudinary"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             pdf_list = [i["url"] for i in f]
             if not pdf_url:
                 return Response(errors={"error":"Internal server error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
