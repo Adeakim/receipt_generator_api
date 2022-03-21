@@ -1,6 +1,7 @@
 # receipt_generator_api
 
-This is a Django web application that generate receipt for users. The api documentation can be assessed through this link https://receipt-generator-api.herokuapp.com/
+This is a Django web application that generate receipt for users. The api documentation can be assessed through this link https://receipt-generator-api.herokuapp.com/.
+The frontend for this project was implemented in Reactjs and can be access through this link https://github.com/Adeakim/generate-receipt-frontend and is hosted on netlify. Go to https://receipt-generator.netlify.app/ to test it out.
 
 TECHNOLOGIES
 The following technologies were used in this project:
