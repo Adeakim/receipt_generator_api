@@ -35,7 +35,7 @@ class GenerateReceiptViewset(mixins.CreateModelMixin,
             pdf = x.generate_pdf(name)
             f=[]
             for i in pdf:
-                pdf_url = cloudinary.uploader.upload(i)
+                pdf_url = cloudinary.uploader.upload(i, folder="Dakka")
                 f.append(pdf_url)
             pdf_list = [i["url"] for i in f]
             if not pdf_url:

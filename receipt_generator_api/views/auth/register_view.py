@@ -24,7 +24,7 @@ class AuthenticationViewset(viewsets.GenericViewSet):
 class UserViewset(viewsets.GenericViewSet):
     queryset= models.User.objects.all()
     serializer_class = user_serializer.RegisterSerializer
-    permission_class = (IsAuthenticated,)
+    permission_class = [IsAuthenticated]
 
     def list(self, request, *arg, **kwargs):
         """
@@ -34,6 +34,7 @@ class UserViewset(viewsets.GenericViewSet):
         # plans = Plan.objects.all()
         users = models.User.objects.all()
         serializer = self.get_serializer(users, many=True)
+        # self.check_object_permissions(users)
         return Response(
             data=dict(users=serializer.data, total=len(serializer.data)),
             status=status.HTTP_200_OK,
