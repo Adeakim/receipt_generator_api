@@ -1,8 +1,11 @@
+import os
 from reportlab.platypus  import SimpleDocTemplate, Table, Paragraph, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from .data import DATA
+from django.conf import settings
+
 
 
  
@@ -43,11 +46,18 @@ class GenerateReceipt:
         table = Table( self.convert() , style = style )
         return table
     
-    def generate_pdf(self):
+    def generate_pdf(self,name):
         x = []
         for  i in range (1,11):
-            pdf = SimpleDocTemplate( f"receipt-{i}.pdf", pagesize = A4 )
+            folder = f'receipt-folder/{name}'
+            filename = f"receipt-{i}.pdf"
+            try:
+                os.makedirs(os.path.join(settings.BASE_DIR , folder))
+            except:
+                pass
+            full_filename = os.path.join(settings.BASE_DIR , folder, filename)
+            pdf = SimpleDocTemplate(full_filename, pagesize = A4 )
             x.append(pdf)
             y = [i.build([ self.title() , self.construct_table() ]) for i in x]
-        theList = [f"receipt-{i}.pdf" for i in range(1,11)]
+        theList = [full_filename for i in range(1,11)]
         return theList

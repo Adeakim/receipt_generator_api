@@ -8,7 +8,7 @@ from rest_framework import mixins,viewsets
 from receipt_generator_api.lib.response import Response
 from receipt_generator_api.data import DATA
 from receipt_generator_api.utils import GenerateReceipt
-import cloudinary.uploader
+import cloudinary.uploader,os
 
 
 class GenerateReceiptViewset(mixins.CreateModelMixin,
@@ -26,12 +26,13 @@ class GenerateReceiptViewset(mixins.CreateModelMixin,
 
     def create(self, request):
         data = request.data 
+        name = data.get("name")
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             serializer.save()
             new_data=serializer.data
             x = GenerateReceipt([(new_data)])
-            pdf = x.generate_pdf()
+            pdf = x.generate_pdf(name)
             f=[]
             for i in pdf:
                 pdf_url = cloudinary.uploader.upload(i)
@@ -50,3 +51,15 @@ class GenerateReceiptViewset(mixins.CreateModelMixin,
             dict(receipt=serializer.data, total=len(serializer.data)),
             status=status.HTTP_200_OK,
         )
+    def upload(request):
+        img = request.FILES['avatar']
+        img_extension = os.path.splitext(img.name)[1]
+
+        user_folder = 'static/profile/' + str(request.session['user_id'])
+        if not os.path.exists(user_folder):
+            os.mkdir(user_folder)
+
+        img_save_path = "%s/%s%s",user_folder, 'avatar', img_extension
+        with open(img_save_path, 'wb+') as f:
+            for chunk in img.chunks():
+                f.write(chunk)
